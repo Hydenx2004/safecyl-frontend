@@ -3,7 +3,7 @@ import Login from "./Login";
 import Dashboard from "./Dashboard";
 
 // API base can be overridden with VITE_API_BASE; otherwise default to localhost:3000
-export const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000";
+export const API_BASE = import.meta.env.VITE_API_BASE || "https://safecyl-server-1.onrender.com";
 
 export default function App() {
   const [authed, setAuthed] = useState(() => localStorage.getItem("safecyl_authed") === "1");

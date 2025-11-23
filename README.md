@@ -1,1 +1,0 @@
-# safecyl-frontend

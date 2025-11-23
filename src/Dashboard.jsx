@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import LineChart from "./components/LineChart";
 import CircleProgress from "./components/CircleProgress";
 import ThresholdSlider from "./components/ThresholdSlider";
+import HistoricalChart from "./components/HistoricalChart";
 
 export default function Dashboard({ apiBase, onLogout }) {
   const [data, setData] = useState(null);
@@ -26,6 +27,7 @@ export default function Dashboard({ apiBase, onLogout }) {
       const json = await res.json();
       if (json?.ok) {
         setData(json.data ?? {});
+        
         // derive a numeric mq value if present
         const mq = parseNumber(json.data?.["mq-2"] ?? json.data?.mq) ?? null;
         const val = mq !== null ? mq : parseNumber(json.data?.lpg) ?? null;
@@ -188,6 +190,26 @@ export default function Dashboard({ apiBase, onLogout }) {
               <ThresholdSlider value={threshold} onChange={setThreshold} min={10} max={1500} />
               <div className="threshold-value">{threshold} ppm</div>
             </div>
+            
+            <div className="stats-info">
+              <div className="stats-card">
+                <div className="stats-label">Data Collection</div>
+                <div className="stats-value">Active</div>
+              </div>
+              <div className="stats-card">
+                <div className="stats-label">Real-time Polling</div>
+                <div className="stats-value">3s Interval</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="analytics-section">
+          <h2>📊 Historical Analytics</h2>
+          <div className="analytics-grid">
+            <HistoricalChart 
+              apiBase={apiBase}
+            />
           </div>
         </section>
 

@@ -109,18 +109,18 @@ export default function Dashboard({ apiBase, onLogout }) {
     return parseNumber(data["mq-2"]) ?? parseNumber(data.mq) ?? null;
   })();
 
-  // cylinder capacity (kg) - can be overridden with VITE_CYL_CAPACITY
-  const CAPACITY = Number(import.meta.env.VITE_CYL_CAPACITY) || 20;
+  // cylinder capacity (grams) - can be overridden with VITE_CYL_CAPACITY
+  const CAPACITY = Number(import.meta.env.VITE_CYL_CAPACITY) || 600;
 
-  const cylinderKg = (() => {
+  const cylinderGrams = (() => {
     if (!data) return null;
     const v = parseNumber(data.loadcel) ?? parseNumber(data.loadcell) ?? parseNumber(data.weight);
     return v == null ? null : v;
   })();
 
   const cylinderPercent = (() => {
-    if (cylinderKg == null) return 62;
-    const pct = Math.round((cylinderKg / CAPACITY) * 100);
+    if (cylinderGrams == null) return 62;
+    const pct = Math.round((cylinderGrams / CAPACITY) * 100);
     return Math.max(0, Math.min(100, pct));
   })();
 
@@ -150,7 +150,7 @@ export default function Dashboard({ apiBase, onLogout }) {
           <div className="card">
             <div className="card-title">Cylinder Level</div>
             <div className="card-value big">{cylinderPercent}%</div>
-            <div className="card-meta">{cylinderKg != null ? `${Math.round(cylinderKg*10)/10} kg` : "—"} / {CAPACITY} kg</div>
+            <div className="card-meta">{cylinderGrams != null ? `${Math.round(cylinderGrams)} g` : "—"} / {CAPACITY} g</div>
           </div>
 
           <div className="card">
@@ -177,7 +177,7 @@ export default function Dashboard({ apiBase, onLogout }) {
           <div>
             <h3>Cylinder Level</h3>
             <div className="circle-wrap">
-              <CircleProgress percent={cylinderPercent} kg={cylinderKg} capacity={CAPACITY} />
+              <CircleProgress percent={cylinderPercent} grams={cylinderGrams} capacity={CAPACITY} />
             </div>
           </div>
 
